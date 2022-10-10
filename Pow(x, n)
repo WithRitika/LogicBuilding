@@ -1,0 +1,12 @@
+Implement pow(x, n), which calculates x raised to the power n (i.e., xn).
+
+Solution:
+/**
+ * @param {number} x
+ * @param {number} n
+ * @return {number}
+ */
+var myPow = function(x, n) {
+    if((-100.0 < x) && (x < 100.0) && (Math.pow(-2,31) <= n) && (n <= Math.pow(2,31) -1))
+    return (Math.pow(x,n));
+};
