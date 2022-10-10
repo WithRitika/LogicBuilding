@@ -1,0 +1,77 @@
+The string "PAYPALISHIRING" is written in a zigzag pattern on a given number of rows like this: (you may want to display this pattern in a fixed font for better legibility)
+
+P   A   H   N
+A P L S I I G
+Y   I   R
+And then read line by line: "PAHNAPLSIIGYIR"
+
+Write the code that will take a string and make this conversion given a number of rows:
+
+Solution: 
+
+var convert = function(s, numRows) {
+    let mainArray =[]
+    let subArray = [];
+    let count =0;
+    let k =numRows-1;
+    let n = numRows;
+    let lengthOfString = s.length;
+    do{
+        if(numRows === 1){
+            return s;
+        }
+            if(count <= lengthOfString && s[count] !== undefined && n === numRows){
+                for(let j=0;j<numRows;j++){
+                    if(mainArray.length < numRows && s[count] !== undefined){
+                        if(s[count] === ','){
+                          subArray.push('_');  
+                        }else{
+                        subArray.push(s[count]);
+                        }
+                mainArray.push(subArray);
+                count++;
+                subArray = [];
+                    }
+            }
+            n--;
+            }
+            if( k< numRows && k>1){
+                
+                 k--;
+                 n--;
+                for(let h=0;h<numRows;h++){
+                    if(k === h && s[count] !== undefined){
+                        if(s[count] === ','){
+                          (mainArray[h]).push('_');
+                        }else{
+                         (mainArray[h]).push(s[count]);
+                        }
+                        count++
+                    }else{
+                        if(s[count] !== undefined){
+                         (mainArray[h]).push('!');
+                        }
+                    }
+                }
+            }
+            if(k === 1 && n ===1){
+                 for(let h=0;h<numRows;h++){
+                     if(s[count] !== undefined){
+                   if(s[count] === ','){
+                          (mainArray[h]).push('_');
+                        }else{
+                         (mainArray[h]).push(s[count]);
+                        }
+                    count++;
+                     }
+                }
+                n= numRows-1;
+                k = numRows-1;
+            }
+           if(count=== numRows){
+                  break;
+                }
+    } while(count !== (lengthOfString) && lengthOfString>=1);
+    const str =(([].concat(...mainArray)).join()).replace(/[!,]+/g,'');
+ return str.replace(/_/g,',');
+};
