@@ -1,0 +1,38 @@
+  display(){
+        var node = this.head;
+        var arr=[];
+        var str ='';
+        while(node){
+            str +=node.data+ '->';
+            arr.push(node.data);
+            node = node.next;
+        }
+        str +=null;
+       arr.push(null);
+        console.log(arr);
+        console.log(str);
+    }
+    reverse(){
+        let prevNode = null;
+        let nextNode = null;
+        let currentNode = this.head;
+        while(currentNode !== null){
+            nextNode = currentNode.next;
+            currentNode.next = prevNode;
+            prevNode = currentNode;
+            currentNode = nextNode;
+        }
+        this.head = prevNode;
+        return this.display();
+    }
+    
+ const list = new SinglyLinkedList();
+ let numberOfNodes = 5;
+ let counter = 0;
+ while(numberOfNodes !== 0){
+   counter += 1;
+    list.push(counter);
+    numberOfNodes--;
+ }
+list.display();
+list.reverse();
