@@ -1,0 +1,125 @@
+  
+  class Node{
+    // Each node has three properties, its value, a pointer that indicates the node that follows and a pointer that indicates the previous node
+    constructor(val){
+        this.val = val;
+        this.next = null;
+    }
+}
+
+  class ListNode{
+    // The list has three properties, the head, the tail and the list size
+    constructor(){
+        this.head = null
+        this.tail = null
+        this.length = 0
+    }
+    // The push method takes a value as parameter and assigns it as the tail of the list
+    push(val) {
+        const newNode = new Node(val)
+        if (!this.head){
+            this.head = newNode
+            this.tail = this.head
+        } else {
+            this.tail.next = newNode
+            this.tail = newNode
+        }
+        this.length++
+        return this
+    }
+  }
+  
+  var l1 = new ListNode();
+  
+  l1.push(2);
+  l1.push(4);
+  l1.push(3)
+  
+  var l2 = new ListNode();
+  l2.push(5);
+  l2.push(6);
+  l2.push(4);
+  
+//   console.log(l2);
+  
+/**
+ * @param {ListNode} l1
+ * @param {ListNode} l2
+ * @return {ListNode}
+ */
+var addTwoNumbers = function(l1, l2) {
+    let result = new ListNode();
+    let add = 0;
+    let count = 0;
+    let num1 = l1.head;
+    let num2 = l2.head;
+    let rest = 0;
+    let carry = new Array(2);
+    let iterate = l1.length > l2.length ? l1.length : l2.length;
+    for(let i =0;i<iterate;i++){
+        if(num1 !== null && num2 !== null){
+             if(count){
+                add = num1.val + num2.val + count;
+                count--;
+            }else{
+            add = num1.val + num2.val;
+            }
+        }
+        else if(num1 === null && num2 !== null){
+             if(count){
+                add = num2.val + count;
+                count--;
+            }else{
+            add = num2.val;
+            }
+        }else if(num1 !== null && num2 === null){
+            if(count){
+                add = num1.val + count;
+                count--;
+            }else{
+            add = num1.val;
+            }
+        }else{
+            return;
+        }
+        console.log('add is ---->', add);
+           if(add >=10){
+                carry = add.toString().split('');
+               const newNode = new Node(carry[1])
+                 if (!result.head){
+                 result.head = newNode
+                 result.tail = result.head
+                  } else {
+                        result.tail.next = newNode
+                        result.tail = newNode
+                       }
+                 result.length++
+              count++;
+            }else{
+                 const newNode = new Node(add)
+                 if (!result.head){
+                 result.head = newNode
+                 result.tail = result.head
+                  } else {
+                        result.tail.next = newNode
+                        result.tail = newNode
+                       }
+                 result.length++
+            }
+            if(num1){
+                num1 = num1.next;
+            }
+            if(num2){
+                num2 = num2.next;
+            }
+            
+    }
+    return result;
+};
+console.log(addTwoNumbers(l1,l2));
+
+Answer - ListNode {
+  head: Node { val: 7, next: Node { val: '0', next: [Node] } },
+  tail: Node { val: 8, next: null },
+  length: 3
+}
