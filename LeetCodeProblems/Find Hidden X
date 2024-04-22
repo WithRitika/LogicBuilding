@@ -1,0 +1,91 @@
+To find the hidden x from any equation given with [+,*,-,/] one of these operators and there can be only three operands available.
+
+function MissingDigit(str) {
+
+  const sidesOfEquations = str.split('=');
+  let leftHandSideStr = sidesOfEquations[0].trim();
+  let rightHandSideStr = sidesOfEquations[1].trim();
+  let resultStr;
+  if (/x/.test(rightHandSideStr)) {
+    if (/^x$/.test(rightHandSideStr)) {
+      resultStr = calculate(leftHandSideStr);
+    } else if (!/[\+\*\-\/]/.test(rightHandSideStr)) {
+      let leftHandSideResult = calculate(leftHandSideStr);
+      let indexOfX = rightHandSideStr.indexOf('x');
+      resultStr =  leftHandSideResult[indexOfX];
+    } else {
+      resultStr = findXInEquation(leftHandSideStr, rightHandSideStr, true);
+    }
+  }
+  if (/x/.test(leftHandSideStr)) {
+    if (/^x$/.test(leftHandSideStr)) {
+     resultStr = calculate(rightHandSideStr);
+    } else if (!/[\+\*\-\/]/.test(leftHandSideStr)) {
+      let rightHandSideResult = calculate(rightHandSideStr);
+      let indexOfX = leftHandSideStr.indexOf('x');
+      resultStr = rightHandSideResult[indexofX];
+    } else {
+      resultStr= findXInEquation(leftHandSideStr, rightHandSideStr, false);
+    }
+  }
+  return resultStr;
+
+}
+
+function calculate(str) {
+  let operator = str.match(/[\+\-\/\*]/)[0]
+  let numbers = str.split(operator);
+  let num1 = parseFloat(numbers[0]);
+  let num2 = parseFloat(numbers[1]);
+  let result;
+  switch (operator) {
+    case '+':
+      result = num1 + num2;
+      break;
+    case '-':
+      result = num1 - num2;
+      break;
+    case '*':
+      result = num1 * num2;
+      break;
+    case '/':
+      result = num1 / num2;
+      break;
+  }
+  return result;
+}
+
+function findXInEquation(lhsString, rhsString, isRHS) {
+  let operator = isRHS ? rhsString.match(/[\+\-\/\*]/)[0] : lhsString.match(/[\+\-\/\*]/)[0];
+  let numbers = isRHS ? rhsString.split(operator) : lhsString.split(operator);
+  let result;
+  if (/x/.test(numbers[0])) {
+   let resultStr = isRHS ? solveEquation(parseFloat(lhsString), parseFloat(numbers[1]), operator) : solveEquation(parseFloat(rhsString), parseFloat(numbers[1]), operator);
+    let indexOfX = numbers[0].indexOf('x');
+    result =  (resultStr.toString())[indexOfX];
+  }
+  else if (/x/.test(numbers[1])) {
+    let resultStr = isRHS ? solveEquation(parseFloat(lhsString), parseFloat(numbers[0]), operator) : solveEquation(parseFloat(rhsString), parseFloat(numbers[0]), operator);
+    let indexOfX = numbers[1].indexOf('x');
+    result = (resultStr.toString())[indexOfX];
+  }
+  return result;
+}
+function solveEquation(num1, num2, operator) {
+  switch (operator.trim()) {
+    case '+':
+      return num1 - num2;
+      break;
+    case '-':
+      return num1 + num2;
+      break;
+    case '*':
+      return num1 / num2;
+      break;
+    case '/':
+      return num1 * num2;
+      break;
+  }
+}
+console.log(MissingDigit("1x0 * 12 = 1200"))
+
