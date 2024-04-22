@@ -1,0 +1,59 @@
+function BoggleSolver(strArr) {
+  const matrix = strArr[0].split(", ").map(row => row.split(""));
+  const words = strArr[1].split(",");
+
+  // Define function to check if a word can be formed starting from a given position
+  function canFormWord(word, row, col, visited) {
+    if (word.length === 0) return true; // Base case: word found
+    if (row < 0 || col < 0 || row >= matrix.length || col >= matrix[0].length) return false; // Out of bounds
+    if (visited[row][col] || matrix[row][col] !== word[0]) return false; // Already visited or mismatch
+
+    // Mark current cell as visited
+    visited[row][col] = true;
+
+    // Explore all 8 neighbors
+    for (let dr = -1; dr <= 1; dr++) {
+      for (let dc = -1; dc <= 1; dc++) {
+        if (canFormWord(word.slice(1), row + dr, col + dc, visited)) return true;
+      }
+    }
+
+    // Mark current cell as unvisited (backtrack)
+    visited[row][col] = false;
+
+    return false;
+  }
+
+  let result = true;
+  const notFound = [];
+
+  for (let word of words) {
+    let found = false;
+
+    // Search for the word starting from each cell in the matrix
+    for (let i = 0; i < matrix.length; i++) {
+      for (let j = 0; j < matrix[0].length; j++) {
+        const visited = Array.from({ length: matrix.length }, () => Array(matrix[0].length).fill(false));
+        if (canFormWord(word, i, j, visited)) {
+          found = true;
+          break;
+        }
+      }
+      if (found) break;
+    }
+
+    // If word not found, add it to the notFound array
+    if (!found) notFound.push(word);
+  }
+
+  // If notFound array is not empty, return the words that couldn't be found
+  if (notFound.length > 0) {
+    return notFound.join(",");
+  } else {
+    return "true";
+  }
+}
+
+// Test cases
+console.log(BoggleSolver(["aaey, rrum, tgmn, ball", "all,ball,mur,raeymnl,tall,true,trum"])); // Output: true
+console.log(BoggleSolver(["aaey, rrum, tgmn, ball", "all,ball,mur,raeymnl,rumk,tall,true,trum,yes"])); // Output: rumk,yes
