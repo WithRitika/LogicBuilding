@@ -35,6 +35,25 @@ function postOrderTraversal(node){
            if(!node){return [];}
         return [...postOrderTraversal(node.left), ...postOrderTraversal(node.right), node.value];
 }
+
+
+function searchInBST(root,value){
+  if(!root){console.log('Not available');
+    return;
+  }
+  if(root.value === value){
+    console.log('value is available: ', value);
+    return;
+  }else{
+     if(value < root.value){
+      return searchInBST(root.left, value);
+    }else{
+      return searchInBST(root.right, value);
+    }
+  }
+}
+
+
 const arr =  [45, 22, 17, 31, 23];
 const valArr = [35,28,12,14];
 
@@ -51,3 +70,5 @@ console.log('arr--->>>', arr);
 console.log('preOrderTraverse--->>>', preOrderTraverse);
 console.log('inOrderTraverse--->>>', inOrderTraverse);
 console.log('postOrderTraverse--->>>', postOrderTraverse);
+
+searchInBST(root, 5); //value is available: 5
