@@ -23,6 +23,7 @@
             this.tail = newNode;
         }
         ++this.size;
+      return this;
     }
     display(){
         var node = this.head;
